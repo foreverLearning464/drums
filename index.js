@@ -1,4 +1,20 @@
 
+// todays pick list
+
+ 
+
+// 4 make power on/off functional with power switch turning red to green
+// setup files for calculator app
+// 5 style toggle switches for power and bank
+
+
+
+
+// -------------------------------------------------------------------------------
+
+//  global variables / bank arays 
+
+
 const drumPadsBankOne = [
   {
     keyCode: 81,
@@ -113,18 +129,28 @@ const drumPadsBankTwo = [
   }
 ];
 
-let bankSwitchText = 'bank 1'
+// ------------------------------------------------------------------------------------------------
+
+// components
+
+
+
+
+// Display component
+
+
+
 const Display = (props) => {
+
+  const { bankSwitchText, setBankSwitchText, currentBank, setCurrentBank, text } = props
   
-
   const handleBankSwitch = () => {
-
-    if (props.currentBank === drumPadsBankOne) {
-    props.getCurrentBank(drumPadsBankTwo)
-    props.setBankSwitchText('bank 2')
+    if (currentBank === drumPadsBankOne) {
+    setCurrentBank(drumPadsBankTwo)
+    setBankSwitchText('bank 2')
   } else {
-    props.getCurrentBank(drumPadsBankOne)
-    props.setBankSwitchText('bank 1')
+    setCurrentBank(drumPadsBankOne)
+    setBankSwitchText('bank 1')
   }
 }
 
@@ -133,60 +159,89 @@ const Display = (props) => {
         <div id='wrapper'>
           <div id="power-switch">           
           </div>
-          <div id="display">{props.text}</div>
+          <div id="display">{text}</div>
           <div id="volume-control">
-          <input
-              max='1'
-              min='0'
-              
-              step='0.01'
-              type='range'
-              
-            />
+            <input
+                max='1'
+                min='0'           
+                step='0.01'
+                type='range' 
+              />
           </div>
           <div onClick={handleBankSwitch} id="bank-switch"> 
-          {props.bankSwitchText} 
+            {bankSwitchText} 
           </div>
           </div>
         </div>
     )
 }
 
-const DrumPad = (props) => {
 
-    React.useEffect(() => {
-        document.addEventListener('keydown', handleKeyDown)
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown)
-        }
-    }, [])
+
+// DrumPad component
+
+
+
+const DrumPad = (props) => {
+    const { setCurrentDrumPad, drumPad } = props
    
     const playAudio = () => {
-        const audioTag = document.getElementById(props.drumPad.keyTrigger)
+        const audioTag = document.getElementById(drumPad.keyTrigger)
         audioTag.currentTime = 0
         audioTag.play()
     }
 
     const handleClick = () => {
-      props.setCurrentDrumPad(props.drumPad)
+      setCurrentDrumPad(drumPad)
       playAudio()
     }
 
+    React.useEffect(() => {
+            document.addEventListener('keydown', handleKeyDown)
+            return () => {
+                document.removeEventListener('keydown', handleKeyDown)
+            }
+        }, [])
+
     const handleKeyDown = (e) => {
-        if (e.keyCode  == props.drumPad.keyCode) {
-            props.setCurrentDrumPad(props.drumPad)
+        if (e.keyCode  == drumPad.keyCode) {
+            setCurrentDrumPad(drumPad)
             
             playAudio()
         }
     }
 
     return (
-        <div onKeyDown={handleKeyDown} onClick={handleClick} className="drum-pad" id={props.drumPad.id}>
-            {props.drumPad.keyTrigger}
-            <audio className="clip" id={props.drumPad.keyTrigger} src={props.drumPad.url}></audio>
+        <div onKeyDown={handleKeyDown} onClick={handleClick} className="drum-pad" id={drumPad.id}>
+            {drumPad.keyTrigger}
+            <audio className="clip" id={drumPad.keyTrigger} src={drumPad.url}></audio>
         </div>
     )
 }
+
+
+
+// DrumArea component
+
+
+
+const DrumArea = (props) => {
+
+  const {currentBank, setCurrentDrumPad} = props
+
+    return (
+      <div id="drum-area">
+        {currentBank.map((drumPad) => (
+          <DrumPad key={drumPad.id} drumPad={drumPad} setCurrentDrumPad={drumPad => setCurrentDrumPad(drumPad)} />
+        ))}           
+      </div> 
+    )
+
+}
+
+
+
+// App component
 
 
 
@@ -200,25 +255,12 @@ const App = () => {
     return (
         <div className="App" id="drum-machine">
             <div className="app-container">
-              <div id="drum-area">
-                {currentBank.map((drumPad) => (
-                  <DrumPad key={drumPad.id} drumPad={drumPad} setCurrentDrumPad={drumPad => setCurrentDrumPad(drumPad)} />
-                ))}           
-              </div> 
-              <Display setBankSwitchText={bankSwitchText => setBankSwitchText(bankSwitchText)} bankSwitchText={bankSwitchText} text={currentDrumPad.id} currentBank={currentBank} getCurrentBank={currentBank => setCurrentBank(currentBank)}/>
+              <DrumArea currentBank={currentBank} setCurrentDrumPad={setCurrentDrumPad} />
+              <Display setBankSwitchText={bankSwitchText => setBankSwitchText(bankSwitchText)} bankSwitchText={bankSwitchText} text={currentDrumPad.id} currentBank={currentBank} setCurrentBank={currentBank => setCurrentBank(currentBank)}/>
             </div>
         </div>
     )
 }
-
-
-{/* <Editor text={text} handleChange={text => setText(text)}/> */}
-
-
-
-
-
-
 
 
 
