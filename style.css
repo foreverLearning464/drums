@@ -1,5 +1,6 @@
-
-
+/* same as the index.js comments clean it up into its own files if you convert
+to a more modular build otherwise keep things where they belong. SEPERATTION OF CONCERNS */
+/* App.css */
 .app-container {
     display: flex;
     height: 100vh;
@@ -7,7 +8,7 @@
     background-color: aliceblue;
     border: 2px solid lightblue;
 } 
-
+/* DrumArea.css--------------------------------------------- */
 #drum-area {
 padding: 2vw;
 display: flex;
@@ -16,7 +17,7 @@ width: 50vw;
 height: auto;
 background-color: tan;
 }
-
+/* DrumPad.css------------------------------------------------------------ */
 .drum-pad {
     height: 28vh;
     width: 14vw;
@@ -27,25 +28,20 @@ background-color: tan;
     font-size: 15vh;
     line-height: 28vh;   
 }
-
-
-
+/* Display.css------------------------------------------------------------- */
 #display-container {
     display: block;
     height: auto;
     width: 50vw;
-    background-color: blanchedalmond; 
-    
+    background-color: blanchedalmond;     
 }
-
-#wrapper {
+#display-wrapper {
     width: 40vw;
     min-height: 50vh;
     background-color: aquamarine;
     margin: 25vh auto;
     padding-top: 5vh;
 }
-
 #display {
     display: block;
     font-size: 9vh;
@@ -55,29 +51,28 @@ background-color: tan;
     margin: 5vh auto;
     text-align: center;
 }
-
+/* PowerSwitch.css-------------------------------------------------------------- */
 #power-switch {
     height: 5vh;
     width: 10vh;
     background-color: white;
-    margin: 0vh auto;
-    
+    margin: 0vh auto;  
 }
-
+/* VolumeSlider.css-------------------------------------------------------------------- */
 #volume-control {
     height: 10vh;
     width: 30vw;
     background-color: black;
     margin: 5vh auto;
 }
-
+/* BankSwitch.css------------------------------------------------------------------------ */
 #bank-switch {
     height: 5vh;
     width: 10vh;
     background-color: white;
     margin: 0vh auto;
 }
-
+/* --------------------------------------------------------------------------- */
 
 
 

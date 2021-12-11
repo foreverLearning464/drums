@@ -1,20 +1,12 @@
-
-// todays pick list
-
- 
-
-// 4 make power on/off functional with power switch turning red to green
-// setup files for calculator app
-// 5 style toggle switches for power and bank
-
-
-
-
+// IF YOU ARE WORKING ON THIS FILE TAKE A SECOND TO READ THIS COMMENT
+// I used a cdn link for the react so I can NOT import/export. 
+// The comments are only here to seperate and organize in lue of a 
+// proper filing system. If you convert to a more modular build such-as
+// create-react-app please clean up these comments. Otherwize treate 
+// each component or section as if it was its own file with its own scope and 
+// maintain a seperation of concerns 
 // -------------------------------------------------------------------------------
-
 //  global variables / bank arays 
-
-
 const drumPadsBankOne = [
   {
     keyCode: 81,
@@ -71,7 +63,6 @@ const drumPadsBankOne = [
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3'
   }
 ];
-
 const drumPadsBankTwo = [
   {
     keyCode: 81,
@@ -128,22 +119,32 @@ const drumPadsBankTwo = [
     url: 'https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3'
   }
 ];
-
 // ------------------------------------------------------------------------------------------------
+// GrandChild Components/Children of Display
+// ------------------------------------------------------------------------------------------------
+const PowerSwitch = () => {
+  return (
+    <div id="power-switch">
 
-// components
-
-
-
-
-// Display component
-
-
-
-const Display = (props) => {
-
-  const { bankSwitchText, setBankSwitchText, currentBank, setCurrentBank, text } = props
-  
+    </div>
+  )
+}
+// -------------------------
+const VolumeSlider = () => {
+  return (
+    <div id="volume-control">
+      <input
+          max='1'
+          min='0'           
+          step='0.01'
+          type='range' 
+        />
+      </div>
+  )
+}
+// ------------------------
+const BankSwitch = (props) => {
+  const { bankSwitchText, setBankSwitchText, currentBank, setCurrentBank } = props
   const handleBankSwitch = () => {
     if (currentBank === drumPadsBankOne) {
     setCurrentBank(drumPadsBankTwo)
@@ -153,64 +154,38 @@ const Display = (props) => {
     setBankSwitchText('bank 1')
   }
 }
-
-    return (
-        <div id="display-container">
-        <div id='wrapper'>
-          <div id="power-switch">           
-          </div>
-          <div id="display">{text}</div>
-          <div id="volume-control">
-            <input
-                max='1'
-                min='0'           
-                step='0.01'
-                type='range' 
-              />
-          </div>
-          <div onClick={handleBankSwitch} id="bank-switch"> 
-            {bankSwitchText} 
-          </div>
-          </div>
-        </div>
-    )
+  return (
+    <div onClick={handleBankSwitch} id="bank-switch"> 
+      {bankSwitchText} 
+    </div>
+  )
 }
-
-
-
-// DrumPad component
-
-
-
+// -----------------------------------------------------------------------------------------------------
+// GrandChild Components/Children of DrumArea
+// -----------------------------------------------------------------------------------------------------
 const DrumPad = (props) => {
-    const { setCurrentDrumPad, drumPad } = props
-   
+    const { setCurrentDrumPad, drumPad } = props  
     const playAudio = () => {
         const audioTag = document.getElementById(drumPad.keyTrigger)
         audioTag.currentTime = 0
         audioTag.play()
     }
-
     const handleClick = () => {
       setCurrentDrumPad(drumPad)
       playAudio()
     }
-
     React.useEffect(() => {
             document.addEventListener('keydown', handleKeyDown)
             return () => {
                 document.removeEventListener('keydown', handleKeyDown)
             }
         }, [])
-
     const handleKeyDown = (e) => {
         if (e.keyCode  == drumPad.keyCode) {
-            setCurrentDrumPad(drumPad)
-            
+            setCurrentDrumPad(drumPad)           
             playAudio()
         }
     }
-
     return (
         <div onKeyDown={handleKeyDown} onClick={handleClick} className="drum-pad" id={drumPad.id}>
             {drumPad.keyTrigger}
@@ -218,17 +193,11 @@ const DrumPad = (props) => {
         </div>
     )
 }
-
-
-
-// DrumArea component
-
-
-
+// -----------------------------------------------------------------------------------------------------
+// Child Components
+// -----------------------------------------------------------------------------------------------------
 const DrumArea = (props) => {
-
   const {currentBank, setCurrentDrumPad} = props
-
     return (
       <div id="drum-area">
         {currentBank.map((drumPad) => (
@@ -236,22 +205,32 @@ const DrumArea = (props) => {
         ))}           
       </div> 
     )
-
 }
-
-
-
-// App component
-
-
-
+//-----------------
+const Display = (props) => {
+  const { bankSwitchText, setBankSwitchText, currentBank, setCurrentBank, text } = props
+    return (
+        <div id="display-container">
+          <div id='display-wrapper'>
+            <PowerSwitch />
+            <div id="display">{text}</div>
+            <BankSwitch 
+              bankSwitchText={bankSwitchText} 
+              setBankSwitchText={setBankSwitchText} 
+              currentBank={currentBank} 
+              setCurrentBank={setCurrentBank} 
+            />
+          </div>
+        </div>
+    )
+}
+// -------------------------------------------------------------------------
+// Parent Component
+// ------------------------------------------------------------------------
 const App = () => {
-
     const [ currentDrumPad, setCurrentDrumPad ] = React.useState({id: ''})
     const [ currentBank, setCurrentBank ] = React.useState(drumPadsBankOne)
     const [ bankSwitchText, setBankSwitchText ] = React.useState('bank 1')
-    
-
     return (
         <div className="App" id="drum-machine">
             <div className="app-container">
@@ -261,10 +240,7 @@ const App = () => {
         </div>
     )
 }
-
-
-
-
+// -------------------------------------------------------------------------------------------------------------
 ReactDOM.render(
     <App />, 
     document.getElementById('root'))
