@@ -1,0 +1,87 @@
+
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 98vw;
+    background-color: aliceblue;
+    border: 2px solid lightblue;
+} 
+
+#drum-area {
+padding: 2vw;
+display: flex;
+flex-wrap: wrap;
+width: 50vw;
+height: auto;
+background-color: tan;
+}
+
+.drum-pad {
+    height: 28vh;
+    width: 14vw;
+    border: 1px solid black;
+    margin: auto;
+    background-color: bisque;
+    text-align: center;
+    font-size: 15vh;
+    line-height: 28vh;   
+}
+
+
+
+#display-container {
+    display: block;
+    height: auto;
+    width: 50vw;
+    background-color: blanchedalmond; 
+    
+}
+
+#wrapper {
+    width: 40vw;
+    min-height: 50vh;
+    background-color: aquamarine;
+    margin: 25vh auto;
+    padding-top: 5vh;
+}
+
+#display {
+    display: block;
+    font-size: 9vh;
+    height: 10vh;
+    width: 40vw;
+    background-color: aliceblue; 
+    margin: 5vh auto;
+    text-align: center;
+}
+
+#power-switch {
+    height: 5vh;
+    width: 10vh;
+    background-color: white;
+    margin: 0vh auto;
+    
+}
+
+#volume-control {
+    height: 10vh;
+    width: 30vw;
+    background-color: black;
+    margin: 5vh auto;
+}
+
+#bank-switch {
+    height: 5vh;
+    width: 10vh;
+    background-color: white;
+    margin: 0vh auto;
+}
+
+
+
+
+
+
+
+
